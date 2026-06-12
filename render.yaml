@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: bibliotheque-cps
+    runtime: docker
+    plan: free
+    envVars:
+      - key: DB_HOST
+        value: db.pbpfafixkltjdsbqnetk.supabase.co
+      - key: DB_PORT
+        value: "5432"
+      - key: DB_NAME
+        value: postgres
+      - key: DB_USER
+        value: postgres
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_SSLMODE
+        value: require
+      - key: SUPABASE_URL
+        value: https://pbpfafixkltjdsbqnetk.supabase.co
+      - key: SUPABASE_ANON_KEY
+        sync: false

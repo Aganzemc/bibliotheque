@@ -24,12 +24,27 @@ function loadEnvFile($path) {
 
 loadEnvFile(dirname(__DIR__) . DIRECTORY_SEPARATOR . '.env');
 
-$host = getenv('DB_HOST') ?: getenv('SUPABASE_DB_HOST') ?: 'db.pbpfafixkltjdsbqnetk.supabase.co';
-$port = getenv('DB_PORT') ?: getenv('SUPABASE_DB_PORT') ?: '5432';
-$dbname = getenv('DB_NAME') ?: getenv('SUPABASE_DB_NAME') ?: 'postgres';
-$username = getenv('DB_USER') ?: getenv('SUPABASE_DB_USER') ?: 'postgres';
-$password = getenv('DB_PASSWORD') ?: getenv('SUPABASE_DB_PASSWORD') ?: '';
-$sslmode = getenv('DB_SSLMODE') ?: getenv('SUPABASE_DB_SSLMODE') ?: 'require';
+$databaseUrl = getenv('DATABASE_URL') ?: '';
+
+if ($databaseUrl !== '') {
+    $db = parse_url($databaseUrl);
+
+    $host = $db['host'] ?? 'db.pbpfafixkltjdsbqnetk.supabase.co';
+    $port = $db['port'] ?? '5432';
+    $dbname = isset($db['path']) ? ltrim($db['path'], '/') : 'postgres';
+    $username = isset($db['user']) ? urldecode($db['user']) : 'postgres';
+    $password = isset($db['pass']) ? urldecode($db['pass']) : '';
+
+    parse_str($db['query'] ?? '', $query);
+    $sslmode = $query['sslmode'] ?? 'require';
+} else {
+    $host = getenv('DB_HOST') ?: getenv('SUPABASE_DB_HOST') ?: 'db.pbpfafixkltjdsbqnetk.supabase.co';
+    $port = getenv('DB_PORT') ?: getenv('SUPABASE_DB_PORT') ?: '5432';
+    $dbname = getenv('DB_NAME') ?: getenv('SUPABASE_DB_NAME') ?: 'postgres';
+    $username = getenv('DB_USER') ?: getenv('SUPABASE_DB_USER') ?: 'postgres';
+    $password = getenv('DB_PASSWORD') ?: getenv('SUPABASE_DB_PASSWORD') ?: '';
+    $sslmode = getenv('DB_SSLMODE') ?: getenv('SUPABASE_DB_SSLMODE') ?: 'require';
+}
 
 try {
     $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;sslmode=$sslmode";
