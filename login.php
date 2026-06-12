@@ -54,6 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border-radius: 10px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.2);
             width: 350px;
+            max-width: calc(100vw - 32px);
         }
         h2 { text-align: center; color: #333; }
         input {
@@ -88,6 +89,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             margin-top: 15px;
             font-size: 12px;
             text-align: center;
+        }
+        @media (max-width: 480px) {
+            body {
+                padding: 16px;
+                align-items: flex-start;
+                height: auto;
+                min-height: 100vh;
+            }
+            .login-box {
+                margin-top: 48px;
+                padding: 22px;
+            }
+            h2 {
+                font-size: 1.4rem;
+            }
+            input,
+            button {
+                min-height: 44px;
+                box-sizing: border-box;
+            }
         }
     </style>
 </head>

@@ -55,6 +55,29 @@ $categories = $pdo->query("SELECT * FROM categories ORDER BY nom")->fetchAll();
         .card:hover { 
             transform: translateY(-5px);
          }
+        @media (max-width: 767.98px) {
+            body {
+                background-attachment: fixed;
+            }
+            .container {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+            h1 {
+                font-size: 1.65rem;
+                line-height: 1.25;
+            }
+            form.d-flex {
+                flex-direction: column;
+            }
+            form.d-flex .form-select,
+            form.d-flex .btn {
+                width: 100% !important;
+            }
+            .card:hover {
+                transform: none;
+            }
+        }
          
     </style>
 </head>

@@ -130,8 +130,45 @@ $users = $pdo->query("SELECT * FROM users ORDER BY role, nom")->fetchAll();
         .sidebar .nav-link.active { background-color: #0d6efd; color: white; }
         .content { margin-left: 250px; margin-top: 56px; padding: 20px; }
         @media (max-width: 768px) {
-            .sidebar { width: 100%; position: relative; top: 0; height: auto; }
-            .content { margin-left: 0; }
+            body { padding-top: 56px; }
+            .navbar .container-fluid { flex-wrap: nowrap; gap: 8px; }
+            .navbar-brand {
+                max-width: 52vw;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                font-size: 1rem;
+            }
+            .navbar .d-flex span { display: none; }
+            .sidebar {
+                width: 100%;
+                position: relative;
+                top: 0;
+                height: auto;
+                box-shadow: none;
+                padding: 8px;
+            }
+            .sidebar .nav {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 6px;
+            }
+            .sidebar .nav-link {
+                margin: 0;
+                padding: 10px;
+                font-size: 0.92rem;
+            }
+            .content {
+                margin-left: 0;
+                margin-top: 0;
+                padding: 16px;
+            }
+            h2 { font-size: 1.35rem; }
+            .card-body,
+            .table-responsive { overflow-x: auto; }
+            .table { min-width: 720px; font-size: 0.9rem; }
+            .btn { min-height: 38px; }
+            .card { border-radius: 8px; }
         }
     </style>
 </head>

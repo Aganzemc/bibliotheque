@@ -1,11 +1,42 @@
 body {
     background-color: #f5f5f5;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+}
+
+.navbar {
+    min-height: 56px;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.app-sidebar {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    width: 250px;
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    z-index: 1030;
+}
+
+.app-content {
+    margin-left: 250px;
+    margin-top: 56px;
+    width: calc(100% - 250px);
+    min-height: calc(100vh - 56px);
 }
 
 .nav-link {
     border-radius: 5px;
     transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .nav-link:hover:not(.active) {
@@ -21,6 +52,10 @@ body {
 
 .card:hover {
     transform: translateY(-2px);
+}
+
+.card-body {
+    min-width: 0;
 }
 
 .table th {
@@ -69,4 +104,116 @@ body {
 
 .notification-dropdown.show {
     display: block;
+}
+
+@media (max-width: 767.98px) {
+    body {
+        padding-top: 56px;
+    }
+
+    .navbar {
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+
+    .navbar .container-fluid {
+        flex-wrap: nowrap;
+        gap: 8px;
+    }
+
+    .navbar-brand {
+        max-width: 48vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 1rem;
+    }
+
+    .app-user-label {
+        display: none;
+    }
+
+    .app-sidebar {
+        top: 56px;
+        width: min(86vw, 320px);
+        height: calc(100vh - 56px);
+        transform: translateX(-105%);
+        transition: transform 0.2s ease;
+    }
+
+    body.sidebar-open .app-sidebar {
+        transform: translateX(0);
+    }
+
+    .app-sidebar-backdrop {
+        position: fixed;
+        inset: 56px 0 0 0;
+        background: rgba(0, 0, 0, 0.35);
+        z-index: 1020;
+        display: none;
+    }
+
+    body.sidebar-open .app-sidebar-backdrop {
+        display: block;
+    }
+
+    .app-content {
+        margin: 0;
+        width: 100%;
+        padding: 16px !important;
+    }
+
+    h2 {
+        font-size: 1.35rem;
+        line-height: 1.25;
+    }
+
+    .card {
+        border-radius: 8px;
+    }
+
+    .card:hover {
+        transform: none;
+    }
+
+    .card-header h5,
+    .card-header h6 {
+        font-size: 1rem;
+    }
+
+    .card-body,
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .table {
+        min-width: 720px;
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        min-height: 38px;
+        padding: 7px 12px;
+    }
+
+    .btn-sm {
+        min-height: 34px;
+        padding: 5px 10px;
+    }
+
+    .form-control,
+    .form-select {
+        min-height: 42px;
+    }
+
+    .row > [class*="col-"] {
+        min-width: 0;
+    }
+
+    .notification-dropdown {
+        position: fixed;
+        left: 12px;
+        right: 12px;
+        top: 64px;
+        width: auto;
+    }
 }

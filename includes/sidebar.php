@@ -1,7 +1,7 @@
 <?php
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
-<div class="col-md-2 bg-light vh-100 p-3" style="position: fixed; top: 56px; left: 0; overflow-y: auto;">
+<aside id="appSidebar" class="app-sidebar bg-light p-3">
     <ul class="nav flex-column">
         <li class="nav-item mb-2">
             <a href="dashboard.php" class="nav-link <?= $current_page == 'dashboard.php' ? 'active bg-primary text-white' : 'text-dark' ?>">
@@ -46,5 +46,5 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </a>
         </li>
     </ul>
-</div>
-<div class="col-md-10 offset-md-2 p-4" style="margin-top: 56px;">
+</aside>
+<main class="app-content p-4">
