@@ -1,0 +1,72 @@
+body {
+    background-color: #f5f5f5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.nav-link {
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+.nav-link:hover:not(.active) {
+    background-color: #e9ecef;
+    transform: translateX(5px);
+}
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+.table th {
+    background-color: #343a40;
+    color: white;
+}
+
+.btn {
+    border-radius: 5px;
+    padding: 5px 15px;
+}
+
+.badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+
+.notification-bell {
+    position: relative;
+    cursor: pointer;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 11px;
+}
+
+.notification-dropdown {
+    position: absolute;
+    right: 0;
+    top: 35px;
+    width: 320px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    z-index: 1000;
+    display: none;
+}
+
+.notification-dropdown.show {
+    display: block;
+}
