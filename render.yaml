@@ -4,6 +4,8 @@ services:
     runtime: docker
     plan: free
     envVars:
+      - key: DATABASE_URL
+        sync: false
       - key: DB_HOST
         value: db.pbpfafixkltjdsbqnetk.supabase.co
       - key: DB_PORT
