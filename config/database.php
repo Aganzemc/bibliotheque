@@ -1,5 +1,5 @@
 <?php
-$host = getenv('DB_HOST') ?: getenv('SUPABASE_DB_HOST') ?: 'localhost';
+$host = getenv('DB_HOST') ?: getenv('SUPABASE_DB_HOST') ?: 'db.pbpfafixkltjdsbqnetk.supabase.co';
 $port = getenv('DB_PORT') ?: getenv('SUPABASE_DB_PORT') ?: '5432';
 $dbname = getenv('DB_NAME') ?: getenv('SUPABASE_DB_NAME') ?: 'postgres';
 $username = getenv('DB_USER') ?: getenv('SUPABASE_DB_USER') ?: 'postgres';
