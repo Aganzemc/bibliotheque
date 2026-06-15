@@ -203,11 +203,11 @@ if (in_array($type, ['livres_pdf', 'membres_pdf', 'emprunts_pdf'])) {
                     $membres = $pdo->query("SELECT * FROM membres ORDER BY nom")->fetchAll();
                     foreach ($membres as $m): ?>
                         <tr>
-                            <td><?= htmlspecialchars($m['nom'] . ' ' . $m['prenom']) ?></td>
-                            <td><?= htmlspecialchars($m['classe']) ?></td>
-                            <td><?= htmlspecialchars($m['type']) ?></td>
-                            <td><?= htmlspecialchars($m['telephone']) ?></td>
-                            <td><?= htmlspecialchars($m['email']) ?></td>
+                            <td><?= htmlspecialchars(($m['nom'] ?? '') . ' ' . ($m['prenom'] ?? '')) ?></td>
+                            <td><?= htmlspecialchars($m['classe'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($m['type'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($m['telephone'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($m['email'] ?? '') ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

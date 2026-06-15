@@ -118,12 +118,12 @@ include 'includes/sidebar.php';
             <tbody>
                 <?php foreach($membres as $membre): ?>
                 <tr>
-                    <td><?= htmlspecialchars($membre['nom']) ?></td>
-                    <td><?= htmlspecialchars($membre['prenom']) ?></td>
-                    <td><?= htmlspecialchars($membre['classe']) ?></td>
+                    <td><?= htmlspecialchars($membre['nom'] ?? '') ?></td>
+                    <td><?= htmlspecialchars($membre['prenom'] ?? '') ?></td>
+                    <td><?= htmlspecialchars($membre['classe'] ?? '') ?></td>
                     <td><?= $membre['type'] == 'eleve' ? '👨‍🎓 Élève' : '👨‍🏫 Enseignant' ?></td>
-                    <td><?= htmlspecialchars($membre['telephone']) ?></td>
-                    <td><?= htmlspecialchars($membre['email']) ?></td>
+                    <td><?= htmlspecialchars($membre['telephone'] ?? '') ?></td>
+                    <td><?= htmlspecialchars($membre['email'] ?? '') ?></td>
                     <td><span class="badge bg-warning"><?= $membre['nb_emprunts'] ?></span></td>
                     <td>
                         <a href="membres.php?edit=<?= $membre['id'] ?>" class="btn btn-sm btn-warning">✏️</a>
