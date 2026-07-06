@@ -204,7 +204,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['retourner'])) {
 $membresRecherches = [];
 if (isset($_GET['search_membre']) && !empty($_GET['search_membre'])) {
     $search = '%' . $_GET['search_membre'] . '%';
-    $stmt = $pdo->prepare("SELECT * FROM membres WHERE nom ILIKE ? OR prenom ILIKE ? OR classe ILIKE ? LIMIT 10");
+    $stmt = $pdo->prepare("SELECT * FROM membres WHERE deleted_at IS NULL AND (nom ILIKE ? OR prenom ILIKE ? OR classe ILIKE ?) LIMIT 10");
     $stmt->execute([$search, $search, $search]);
     $membresRecherches = $stmt->fetchAll();
 }
@@ -301,7 +301,7 @@ include 'includes/sidebar.php';
                     <?php endif; ?>
                     
                     <?php if(isset($_GET['membre_id'])): 
-                        $stmt = $pdo->prepare("SELECT * FROM membres WHERE id = ?");
+                        $stmt = $pdo->prepare("SELECT * FROM membres WHERE id = ? AND deleted_at IS NULL");
                         $stmt->execute([$_GET['membre_id']]);
                         $membreSel = $stmt->fetch();
                         if($membreSel):

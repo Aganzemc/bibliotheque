@@ -51,6 +51,7 @@ CREATE TABLE membres (
     type ENUM('eleve', 'enseignant') DEFAULT 'eleve',
     telephone VARCHAR(20),
     email VARCHAR(100),
+    deleted_at TIMESTAMP NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

@@ -79,6 +79,7 @@ create table if not exists public.membres (
     type membre_type not null default 'eleve',
     telephone varchar(20),
     email varchar(100),
+    deleted_at timestamptz,
     created_at timestamptz not null default now()
 );
 

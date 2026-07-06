@@ -33,7 +33,7 @@ if ($type == 'membres_csv') {
     $output = fopen('php://output', 'w');
     fputcsv($output, ['Nom', 'Prénom', 'Classe', 'Type', 'Téléphone', 'Email']);
     
-    $membres = $pdo->query("SELECT * FROM membres ORDER BY nom")->fetchAll();
+    $membres = $pdo->query("SELECT * FROM membres WHERE deleted_at IS NULL ORDER BY nom")->fetchAll();
     foreach ($membres as $membre) {
         fputcsv($output, [$membre['nom'], $membre['prenom'], $membre['classe'], $membre['type'], $membre['telephone'], $membre['email']]);
     }
@@ -200,7 +200,7 @@ if (in_array($type, ['livres_pdf', 'membres_pdf', 'emprunts_pdf'])) {
                 </thead>
                 <tbody>
                     <?php
-                    $membres = $pdo->query("SELECT * FROM membres ORDER BY nom")->fetchAll();
+                    $membres = $pdo->query("SELECT * FROM membres WHERE deleted_at IS NULL ORDER BY nom")->fetchAll();
                     foreach ($membres as $m): ?>
                         <tr>
                             <td><?= htmlspecialchars(($m['nom'] ?? '') . ' ' . ($m['prenom'] ?? '')) ?></td>

@@ -31,20 +31,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['modifier'])) {
 if (isset($_GET['delete'])) {
     $membre_id = $_GET['delete'];
 
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM emprunts WHERE membre_id = ?");
-    $stmt->execute([$membre_id]);
-    $nb_emprunts = (int) $stmt->fetchColumn();
-
-    if ($nb_emprunts > 0) {
-        header('Location: membres.php?error=' . urlencode("Suppression impossible : ce membre est lie a $nb_emprunts emprunt(s). Supprimez d'abord les emprunts concernes ou conservez ce membre pour l'historique."));
-        exit();
-    }
-
     try {
-        $pdo->prepare("DELETE FROM membres WHERE id = ?")->execute([$membre_id]);
-        header('Location: membres.php?success=' . urlencode("Membre supprime avec succes."));
+        $pdo->prepare("UPDATE membres SET deleted_at = NOW() WHERE id = ?")->execute([$membre_id]);
+        header('Location: membres.php?success=' . urlencode("Membre retire de la liste avec succes. Son historique d'emprunts est conserve."));
     } catch (PDOException $e) {
-        header('Location: membres.php?error=' . urlencode("Suppression impossible : ce membre est encore lie a d'autres donnees."));
+        header('Location: membres.php?error=' . urlencode("Suppression impossible : ce membre n'a pas pu etre retire de la liste."));
     }
     exit();
 }
@@ -53,7 +44,8 @@ $membres = $pdo->query("
     SELECT m.*, COUNT(e.id) as nb_emprunts 
     FROM membres m 
     LEFT JOIN emprunts e ON m.id = e.membre_id AND e.statut = 'en_cours'
-    GROUP BY m.id, m.nom, m.prenom, m.classe, m.type, m.telephone, m.email, m.created_at 
+    WHERE m.deleted_at IS NULL
+    GROUP BY m.id, m.nom, m.prenom, m.classe, m.type, m.telephone, m.email, m.deleted_at, m.created_at 
     ORDER BY m.nom
 ")->fetchAll();
 

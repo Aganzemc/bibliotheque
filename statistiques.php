@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id'])) {
 
 $stats['total_livres'] = $pdo->query("SELECT SUM(quantite_totale) FROM livres")->fetchColumn() ?? 0;
 $stats['livres_disponibles'] = $pdo->query("SELECT SUM(quantite_disponible) FROM livres")->fetchColumn() ?? 0;
-$stats['total_membres'] = $pdo->query("SELECT COUNT(*) FROM membres")->fetchColumn();
+$stats['total_membres'] = $pdo->query("SELECT COUNT(*) FROM membres WHERE deleted_at IS NULL")->fetchColumn();
 $stats['emprunts_encours'] = $pdo->query("SELECT COUNT(*) FROM emprunts WHERE statut = 'en_cours'")->fetchColumn();
 $stats['emprunts_retard'] = $pdo->query("SELECT COUNT(*) FROM emprunts WHERE statut = 'en_cours' AND date_retour_prevue < CURRENT_DATE")->fetchColumn();
 $stats['amendes_impayees'] = $pdo->query("SELECT COALESCE(SUM(amende_montant), 0) FROM emprunts WHERE amende_payee = FALSE AND amende_montant > 0")->fetchColumn();

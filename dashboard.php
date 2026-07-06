@@ -22,7 +22,7 @@ $livresDispo = $pdo->query("SELECT SUM(quantite_disponible) as total FROM livres
 $empruntsEncours = $pdo->query("SELECT COUNT(*) FROM emprunts WHERE statut = 'en_cours'")->fetchColumn();
 
 // Compte total de vos membres enregistrés
-$totalMembres = $pdo->query("SELECT COUNT(*) FROM membres")->fetchColumn();
+$totalMembres = $pdo->query("SELECT COUNT(*) FROM membres WHERE deleted_at IS NULL")->fetchColumn();
 
 // Compte des emprunts dont la date de retour prévue est dépassée par rapport à aujourd'hui
 $empruntsRetard = $pdo->query("SELECT COUNT(*) FROM emprunts WHERE statut = 'en_cours' AND date_retour_prevue < CURRENT_DATE")->fetchColumn();
