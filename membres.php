@@ -29,8 +29,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['modifier'])) {
 
 // Supprimer
 if (isset($_GET['delete'])) {
-    $pdo->prepare("DELETE FROM membres WHERE id = ?")->execute([$_GET['delete']]);
-    header('Location: membres.php');
+    $membre_id = $_GET['delete'];
+
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM emprunts WHERE membre_id = ?");
+    $stmt->execute([$membre_id]);
+    $nb_emprunts = (int) $stmt->fetchColumn();
+
+    if ($nb_emprunts > 0) {
+        header('Location: membres.php?error=' . urlencode("Suppression impossible : ce membre est lie a $nb_emprunts emprunt(s). Supprimez d'abord les emprunts concernes ou conservez ce membre pour l'historique."));
+        exit();
+    }
+
+    try {
+        $pdo->prepare("DELETE FROM membres WHERE id = ?")->execute([$membre_id]);
+        header('Location: membres.php?success=' . urlencode("Membre supprime avec succes."));
+    } catch (PDOException $e) {
+        header('Location: membres.php?error=' . urlencode("Suppression impossible : ce membre est encore lie a d'autres donnees."));
+    }
     exit();
 }
 
@@ -47,6 +62,12 @@ include 'includes/sidebar.php';
 ?>
 
 <h2>👥 Gestion des membres</h2>
+<?php if(isset($_GET['success'])): ?>
+    <div class="alert alert-success"><?= htmlspecialchars($_GET['success']) ?></div>
+<?php endif; ?>
+<?php if(isset($_GET['error'])): ?>
+    <div class="alert alert-danger">Attention : <?= htmlspecialchars($_GET['error']) ?></div>
+<?php endif; ?>
 
 <div class="card mb-4">
     <div class="card-header bg-primary text-white">

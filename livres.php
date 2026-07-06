@@ -125,7 +125,10 @@ if (isset($_GET['success'])) {
     $success = "Opération effectuée avec succès !";
 }
 if (isset($_GET['error_code']) && $_GET['error_code'] === 'foreign_key') {
-    $error = "Action impossible : Ce livre ne peut pas être supprimé car il est lié à des fiches d'emprunts existantes (historique requis).";
+    $error = "Action impossible : Ce livre ne peut pas etre supprime car il est lie a des fiches d'emprunts existantes (historique requis).";
+}
+if (isset($_GET['error_code']) && $_GET['error_code'] === 'unknown') {
+    $error = "Action impossible : la suppression a ete refusee par la base de donnees.";
 }
 
 // Supprimer un livre de manière sécurisée
@@ -133,6 +136,12 @@ if (isset($_GET['delete'])) {
     $id_a_supprimer = $_GET['delete'];
     try {
         $pdo->beginTransaction();
+
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM emprunts WHERE livre_id = ?");
+        $stmt->execute([$id_a_supprimer]);
+        if ((int) $stmt->fetchColumn() > 0) {
+            throw new PDOException("Livre lie a des emprunts", '23503');
+        }
         
         $pdo->prepare("DELETE FROM livre_categorie WHERE livre_id = ?")->execute([$id_a_supprimer]);
         $pdo->prepare("DELETE FROM livres WHERE id = ?")->execute([$id_a_supprimer]);
@@ -142,7 +151,7 @@ if (isset($_GET['delete'])) {
         exit();
     } catch (PDOException $e) {
         $pdo->rollBack();
-        if ($e->getCode() === '23000' || strpos($e->getMessage(), '1451') !== false) {
+        if ($e->getCode() === '23503' || $e->getCode() === '23000' || strpos($e->getMessage(), '1451') !== false) {
             header('Location: livres.php?error_code=foreign_key');
         } else {
             header('Location: livres.php?error_code=unknown');

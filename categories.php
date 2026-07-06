@@ -32,8 +32,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['modifier'])) {
 
 // Supprimer
 if (isset($_GET['delete'])) {
-    $pdo->prepare("DELETE FROM categories WHERE id = ?")->execute([$_GET['delete']]);
-    header('Location: categories.php');
+    try {
+        $pdo->prepare("DELETE FROM categories WHERE id = ?")->execute([$_GET['delete']]);
+        header('Location: categories.php?success=' . urlencode("Categorie supprimee avec succes."));
+    } catch (PDOException $e) {
+        header('Location: categories.php?error=' . urlencode("Suppression impossible : cette categorie est encore liee a des livres."));
+    }
     exit();
 }
 
@@ -48,6 +52,12 @@ include 'includes/sidebar.php';
 ?>
 
 <h2> Gestion des catégories</h2>
+<?php if(isset($_GET['success'])): ?>
+    <div class="alert alert-success"><?= htmlspecialchars($_GET['success']) ?></div>
+<?php endif; ?>
+<?php if(isset($_GET['error'])): ?>
+    <div class="alert alert-danger">Attention : <?= htmlspecialchars($_GET['error']) ?></div>
+<?php endif; ?>
 
 <div class="card mb-4">
     <div class="card-header bg-primary text-white">
